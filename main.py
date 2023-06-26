@@ -17,6 +17,7 @@ import os
 import logging
 import random
 from flask import Flask, request
+import math
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 logger = logging.getLogger(__name__)
@@ -39,6 +40,7 @@ def move():
     # My CONST / Global Vars
     global lastMove    
     global prefEnemy
+    #global closestEnemy
     FIRERANGE = 3
 
     myUrl = data["_links"]["self"]["href"]
@@ -52,8 +54,13 @@ def move():
     myDir = myState["direction"]
     iWasHit = myState["wasHit"]
     myScore = myState["score"]
-   
+
+    #def calculateDistance(x1, y1, x2, y2):
+    #    return math.sqrt((x2 - x1)**2 + (y2 - y1)**2) 
+
     def isInFront(myUrl,myX,myY,myDir,states,range):
+    #    closestDist = float('inf')
+
         for enemy in states:
             if enemy != myUrl:
                 logger.info(enemy)
@@ -78,6 +85,11 @@ def move():
                     if myY == enemyState["y"]:
                         if myX > enemyState["x"] >= myX - range:
                             return enemy
+                
+                # distance = calculateDistance(myX, myY, enemyState["x"], enemyState["y"])
+                # if distance < closestDist:
+                #     closestDist = distance
+                #     closestEnemy = enemy
         return ""
 
 
@@ -105,15 +117,47 @@ def move():
                 thisTurn = "R"
         return thisTurn
 
+    # def turnToClosest():
+    #     enemyState = states[closestEnemy]
+    #     if myDir == "N":
+    #         if enemyState["direction"] == "N" or enemyState["direction"] == "S"
+    #                 return enemy
+    #     elif myDir == "S":
+    #         if myX == enemyState["x"]:
+    #             if myY + range >= enemyState["y"] > myY:
+    #                 return enemy
+    #     elif myDir == "E":
+    #         if myY == enemyState["y"]:
+    #             if myX + range >= enemyState["x"] > myX:
+    #                 return enemy
+    #     elif myDir == "W":
+    #         if myY == enemyState["y"]:
+    #             if myX > enemyState["x"] >= myX - range:
+    #                 return enemy
+
+    #     return
+
     if iWasHit:
         if isInFront(myUrl,myX,myY,myDir,states,1) != "":
             logger.info("Got hit, move forward")
             lastMove = "F"
         else:
             logger.info("Got hit, but blocked, turn")
-            lastMove = checkBound();
-            if lastMove == "":
-                lastMove = turns[random.randrange(len(turns))]
+            if lastMove != "R" and lastMove != "L":
+                for enemy in states:
+                    if enemy != myUrl:
+                        enemyState = states[enemy]
+                        if myDir == "N" and enemyState["x"] - 1 == myX:
+                            lastMove = "L"
+                        elif myDir == "S" and enemyState["x"] + 1 == myX:
+                            lastMove = "L"
+                        elif myDir == "E" and enemyState["y"] - 1 == myY:
+                            lastMove = "L"
+                        elif myDir == "W" and enemyState["y"] + 1 == myY:
+                            lastMove = "L"
+                if lastMove != "L":
+                    lastMove = "R"
+            #else keep turning the same direction
     else:
         prefEnemy = isInFront(myUrl,myX,myY,myDir,states,FIRERANGE)
         if prefEnemy != "":
