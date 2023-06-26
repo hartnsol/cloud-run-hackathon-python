@@ -26,8 +26,8 @@ turns = ['L', 'R']
 
 #My CONST / Global Vars
 FIRERANGE = 3
-lastMove = None
-prefEnemy = None
+lastMove = ""
+prefEnemy = ""
 
 @app.route("/", methods=['GET'])
 def index():
@@ -52,10 +52,7 @@ def move():
     myDir = myState["direction"]
     iWasHit = myState["wasHit"]
     myScore = myState["score"]
-
-    print(myUrl, " ", dimsX, " ", dimsY, " ", FIRERANGE)
-    print(myX, " ", myY, " ", myDir, " ", myScore)
-    
+   
     def isInFront(myUrl,myX,myY,myDir,states,range):
         for enemy in states:
             if enemy != myUrl:
@@ -81,7 +78,7 @@ def move():
                     if myY == enemyState["y"]:
                         if myX > enemyState["x"] >= myX - range:
                             return enemy
-        return False
+        return ""
 
     if iWasHit:
         if isInFront(myUrl,myX,myY,myDir,states,1) != False:
@@ -92,7 +89,7 @@ def move():
             lastMove = turns[random.randrange(len(turns))]
     else:
         prefEnemy = isInFront(myUrl,myX,myY,myDir,states,FIRERANGE)
-        if prefEnemy != False:
+        if prefEnemy != "":
             #THROW
             logger.info("preferred enemy")
             lastMove = "T"
