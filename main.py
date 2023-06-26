@@ -22,7 +22,7 @@ logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-moves = ['L', 'R']
+turns = ['L', 'R']
 
 @app.route("/", methods=['GET'])
 def index():
@@ -94,14 +94,14 @@ def move():
         print(prefEnemy)
         lastMove = "T"
         return lastMove
-    elif lastMove != "F" | lastMove != "T":
+    elif lastMove != "F" & lastMove != "T":
         lastMove = "F"
         return lastMove
     else:
-        lastMove = moves[random.randrange(len(moves))]
+        lastMove = turns[random.randrange(len(turns))]
         return lastMove
     
-    #return moves[random.randrange(len(moves))]
+    #return turns[random.randrange(len(turns))]
 
 if __name__ == "__main__":
   app.run(debug=False,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
