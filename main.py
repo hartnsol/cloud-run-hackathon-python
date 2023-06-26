@@ -80,13 +80,40 @@ def move():
                             return enemy
         return ""
 
+
+    def checkBound():
+        thisTurn = ""
+        if myX == dimsX - 1 and myDir == "E":
+            if myY < dimsY / 2:
+                thisTurn = "R"
+            else:
+                thisTurn = "L"
+        elif myX == 1 and myDir == "W":
+            if myY < dimsY / 2:
+                thisTurn = "L"
+            else:
+                thisTurn = "R"
+        elif myY == 1 and myDir == "N":
+            if myX < dimsX / 2:
+                thisTurn = "R"
+            else:
+                thisTurn = "L"
+        elif myY == dimsY - 1 and myDir == "S":
+            if myX < dimsX / 2:
+                thisTurn = "L"
+            else:
+                thisTurn = "R"
+        return thisTurn
+
     if iWasHit:
-        if isInFront(myUrl,myX,myY,myDir,states,1) != False:
+        if isInFront(myUrl,myX,myY,myDir,states,1) != "":
             logger.info("Got hit, move forward")
             lastMove = "F"
         else:
-            logger.info("Got hit, turn")
-            lastMove = turns[random.randrange(len(turns))]
+            logger.info("Got hit, but blocked, turn")
+            lastMove = checkBound();
+            if lastMove == "":
+                lastMove = turns[random.randrange(len(turns))]
     else:
         prefEnemy = isInFront(myUrl,myX,myY,myDir,states,FIRERANGE)
         if prefEnemy != "":
@@ -95,30 +122,13 @@ def move():
             lastMove = "T"
         elif lastMove != "F" and lastMove != "T":
             #Boundary Check, don't go into boundary
-            if myX == dimsX - 1 and myDir == "E":
-                if myY < dimsY / 2:
-                    lastMove = "R"
-                else:
-                    lastMove = "L"
-            elif myX == 1 and myDir == "W":
-                if myY < dimsY / 2:
-                    lastMove = "L"
-                else:
-                    lastMove = "R"
-            elif myY == 1 and myDir == "N":
-                if myX < dimsX / 2:
-                    lastMove = "R"
-                else:
-                    lastMove = "L"
-            elif myY == dimsY - 1 and myDir == "S":
-                if myX < dimsX / 2:
-                    lastMove = "L"
-                else:
-                    lastMove = "R"
-            else:
+            lastMove = checkBound();
+            if lastMove == "":
                 lastMove = "F"
         else:
-            lastMove = turns[random.randrange(len(turns))]
+            lastMove = checkBound();
+            if lastMove == "":
+                lastMove = turns[random.randrange(len(turns))]
 
     return lastMove
     
