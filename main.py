@@ -58,7 +58,6 @@ def move():
         print("I got hit!")
     else:
         print("Not hit...")
-       
     
     def isInFront(myUrl,myX,myY,myDir,states):
         for enemy in states:
