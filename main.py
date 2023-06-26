@@ -53,8 +53,8 @@ def move():
     iWasHit = myState["wasHit"]
     myScore = myState["score"]
 
-    logger.info(myUrl, " ", dimsX, " ", dimsY, " ", FIRERANGE)
-    logger.info(myX, " ", myY, " ", myDir, " ", myScore)
+    print(myUrl, " ", dimsX, " ", dimsY, " ", FIRERANGE)
+    print(myX, " ", myY, " ", myDir, " ", myScore)
     
     def isInFront(myUrl,myX,myY,myDir,states,range):
         for enemy in states:
@@ -96,24 +96,24 @@ def move():
             #THROW
             logger.info("preferred enemy")
             lastMove = "T"
-        elif lastMove != "F" & lastMove != "T":
+        elif lastMove != "F" and lastMove != "T":
             #Boundary Check, don't go into boundary
-            if myX == dimsX - 1 & myDir == "E":
+            if myX == dimsX - 1 and myDir == "E":
                 if myY < dimsY / 2:
                     lastMove = "R"
                 else:
                     lastMove = "L"
-            elif myX == 1 & myDir == "W":
+            elif myX == 1 and myDir == "W":
                 if myY < dimsY / 2:
                     lastMove = "L"
                 else:
                     lastMove = "R"
-            elif myY == 1 & myDir == "N":
+            elif myY == 1 and myDir == "N":
                 if myX < dimsX / 2:
                     lastMove = "R"
                 else:
                     lastMove = "L"
-            elif myY == dimsY - 1 & myDir == "S":
+            elif myY == dimsY - 1 and myDir == "S":
                 if myX < dimsX / 2:
                     lastMove = "L"
                 else:
