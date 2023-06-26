@@ -39,7 +39,7 @@ def move():
 
     # My CONST / Global Vars
     global lastMove    
-    global prefEnemy
+    #global prefEnemy
     #global closestEnemy
     FIRERANGE = 3
 
@@ -91,7 +91,6 @@ def move():
                 #     closestDist = distance
                 #     closestEnemy = enemy
         return ""
-
 
     def checkBound():
         thisTurn = ""
