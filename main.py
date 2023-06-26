@@ -92,24 +92,25 @@ def move():
                 #     closestEnemy = enemy
         return ""
 
+    #Boundary Check, don't go into boundary
     def checkBound():
         thisTurn = ""
-        if myX == dimsX and myDir == "E":
+        if myX >= dimsX - 1 and myDir == "E":
             if myY < dimsY / 2:
                 thisTurn = "R"
             else:
                 thisTurn = "L"
-        elif myX == 0 and myDir == "W":
+        elif myX <= 1 and myDir == "W":
             if myY < dimsY / 2:
                 thisTurn = "L"
             else:
                 thisTurn = "R"
-        elif myY == 0 and myDir == "N":
+        elif myY <= 1 and myDir == "N":
             if myX < dimsX / 2:
                 thisTurn = "R"
             else:
                 thisTurn = "L"
-        elif myY == dimsY and myDir == "S":
+        elif myY >= dimsY - 1 and myDir == "S":
             if myX < dimsX / 2:
                 thisTurn = "L"
             else:
@@ -164,7 +165,6 @@ def move():
             #THROW
             lastMove = "T"
         elif lastMove != "F" and lastMove != "T":
-            #Boundary Check, don't go into boundary
             logger.info("turned, no one in front, forward")
             lastMove = checkBound()
             if lastMove == "":
