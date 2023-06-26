@@ -88,17 +88,17 @@ def move():
         return False
     
     
-        prefEnemy = isInFront(myUrl,myX,myY,myDir,states)
-        if prefEnemy != False:
-            #THROW
-            print(prefEnemy)
-            lastMove = "T"
-        elif lastMove != "F" & lastMove != "T":
-            lastMove = "F"
-        else:
-            lastMove = turns[random.randrange(len(turns))]
+    prefEnemy = isInFront(myUrl,myX,myY,myDir,states)
+    if prefEnemy != False:
+        #THROW
+        print(prefEnemy)
+        lastMove = "T"
+    elif lastMove != "F" & lastMove != "T":
+        lastMove = "F"
+    else:
+        lastMove = turns[random.randrange(len(turns))]
 
-        return lastMove
+    return lastMove
     
     #return turns[random.randrange(len(turns))]
 
