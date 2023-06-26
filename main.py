@@ -34,6 +34,26 @@ def move():
     logger.info(request.json)
     
     # TODO add your implementation here to replace the random response
+    data = request.json
+    
+    #CONST
+    FIRERANGE = 3
+
+    
+    myUrl = data["_links"]["self"]["href"]
+    dims = data["arena"]["dims"]
+    dimsX = dims[0]
+    dimsY = dims[1]
+    states = data["arena"]["state"]
+    myState = states[myUrl]
+    myX = myState["x"]
+    myY = myState["y"]
+    myDir = myState["direction"]
+    iWasHit = myState["wasHit"]
+    myScore = myState["score"]
+
+    print(myUrl, " ", dimsX, " ", dimsY, " ", FIRERANGE)
+    print(myX, " ", myY, " ", myDir, " ", myScore)
     
     return moves[random.randrange(len(moves))]
 
