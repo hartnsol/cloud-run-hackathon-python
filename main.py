@@ -24,6 +24,11 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 turns = ['L', 'R']
 
+#My CONST / Global Vars
+FIRERANGE = 3
+lastMove = None
+prefEnemy = None
+
 @app.route("/", methods=['GET'])
 def index():
     return "Let the battle begin!"
@@ -36,9 +41,6 @@ def move():
     # TODO add your implementation here to replace the random response
     data = request.json
     
-    #CONST
-    FIRERANGE = 3
-    
     myUrl = data["_links"]["self"]["href"]
     dims = data["arena"]["dims"]
     dimsX = dims[0]
@@ -50,33 +52,32 @@ def move():
     myDir = myState["direction"]
     iWasHit = myState["wasHit"]
     myScore = myState["score"]
-    lastMove = None
 
-    print(myUrl, " ", dimsX, " ", dimsY, " ", FIRERANGE)
-    print(myX, " ", myY, " ", myDir, " ", myScore)
+    logger.info(myUrl, " ", dimsX, " ", dimsY, " ", FIRERANGE)
+    logger.info(myX, " ", myY, " ", myDir, " ", myScore)
     
     def isInFront(myUrl,myX,myY,myDir,states,range):
         for enemy in states:
             if enemy != myUrl:
-                print(enemy)
+                logger.info(enemy)
                 enemyState = states[enemy]
                 if myDir == "N":
-                    print("N")
+                    logger.info("N")
                     if myX == enemyState["x"]:
                         if myY > enemyState["y"] >= myY - range:
                             return enemy
                 elif myDir == "S":
-                    print("S")
+                    logger.info("S")
                     if myX == enemyState["x"]:
                         if myY + range >= enemyState["y"] > myY:
                             return enemy
                 elif myDir == "E":
-                    print("E")
+                    logger.info("E")
                     if myY == enemyState["y"]:
                         if myX + range >= enemyState["x"] > myX:
                             return enemy
                 elif myDir == "W":
-                    print("W")
+                    logger.info("W")
                     if myY == enemyState["y"]:
                         if myX > enemyState["x"] >= myX - range:
                             return enemy
@@ -84,20 +85,65 @@ def move():
 
     if iWasHit:
         if isInFront(myUrl,myX,myY,myDir,states,1) != False:
+            logger.info("Got hit, move forward")
             lastMove = "F"
         else:
+            logger.info("Got hit, turn")
             lastMove = turns[random.randrange(len(turns))]
     else:
-    
         prefEnemy = isInFront(myUrl,myX,myY,myDir,states,FIRERANGE)
         if prefEnemy != False:
             #THROW
-            print(prefEnemy)
+            logger.info("preferred enemy: ", prefEnemy)
             lastMove = "T"
         elif lastMove != "F" & lastMove != "T":
-            lastMove = "F"
+            #Boundary Check, don't go into boundary
+            if myX == dimsX - 1 & myDir == "E":
+                if myY < dimsY / 2:
+                    lastMove = "R"
+                else:
+                    lastMove = "L"
+            elif myX == 1 & myDir == "W":
+                if myY < dimsY / 2:
+                    lastMove = "L"
+                else:
+                    lastMove = "R"
+            elif myY == 1 & myDir == "N":
+                if myX < dimsX / 2:
+                    lastMove = "R"
+                else:
+                    lastMove = "L"
+            elif myY == dimsY - 1 & myDir == "S":
+                if myX < dimsX / 2:
+                    lastMove = "L"
+                else:
+                    lastMove = "R"
+            else:
+                lastMove = "F"
         else:
-            lastMove = turns[random.randrange(len(turns))]
+            #Boundary Check, don't go into boundary
+            if myX == dimsX - 1 & myDir == "E":
+                if myY < dimsY / 2:
+                    lastMove = "R"
+                else:
+                    lastMove = "L"
+            elif myX == 1 & myDir == "W":
+                if myY < dimsY / 2:
+                    lastMove = "L"
+                else:
+                    lastMove = "R"
+            elif myY == 1 & myDir == "N":
+                if myX < dimsX / 2:
+                    lastMove = "R"
+                else:
+                    lastMove = "L"
+            elif myY == dimsY - 1 & myDir == "S":
+                if myX < dimsX / 2:
+                    lastMove = "L"
+                else:
+                    lastMove = "R"
+            else:
+                lastMove = turns[random.randrange(len(turns))]
 
     return lastMove
     
