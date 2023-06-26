@@ -24,11 +24,6 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 turns = ['L', 'R']
 
-#My CONST / Global Vars
-FIRERANGE = 3
-global lastMove
-prefEnemy = ""
-
 @app.route("/", methods=['GET'])
 def index():
     return "Let the battle begin!"
@@ -40,7 +35,12 @@ def move():
     
     # TODO add your implementation here to replace the random response
     data = request.json
-    
+
+    # My CONST / Global Vars
+    global lastMove    
+    global prefEnemy
+    FIRERANGE = 3
+
     myUrl = data["_links"]["self"]["href"]
     dims = data["arena"]["dims"]
     dimsX = dims[0]
