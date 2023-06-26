@@ -94,7 +94,7 @@ def move():
         prefEnemy = isInFront(myUrl,myX,myY,myDir,states,FIRERANGE)
         if prefEnemy != False:
             #THROW
-            logger.info("preferred enemy: ", prefEnemy)
+            logger.info("preferred enemy")
             lastMove = "T"
         elif lastMove != "F" & lastMove != "T":
             #Boundary Check, don't go into boundary
@@ -121,29 +121,7 @@ def move():
             else:
                 lastMove = "F"
         else:
-            #Boundary Check, don't go into boundary
-            if myX == dimsX - 1 & myDir == "E":
-                if myY < dimsY / 2:
-                    lastMove = "R"
-                else:
-                    lastMove = "L"
-            elif myX == 1 & myDir == "W":
-                if myY < dimsY / 2:
-                    lastMove = "L"
-                else:
-                    lastMove = "R"
-            elif myY == 1 & myDir == "N":
-                if myX < dimsX / 2:
-                    lastMove = "R"
-                else:
-                    lastMove = "L"
-            elif myY == dimsY - 1 & myDir == "S":
-                if myX < dimsX / 2:
-                    lastMove = "L"
-                else:
-                    lastMove = "R"
-            else:
-                lastMove = turns[random.randrange(len(turns))]
+            lastMove = turns[random.randrange(len(turns))]
 
     return lastMove
     
