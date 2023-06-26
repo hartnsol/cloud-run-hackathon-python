@@ -17,7 +17,7 @@ import os
 import logging
 import random
 from flask import Flask, request
-import math
+#import math
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 logger = logging.getLogger(__name__)
@@ -167,12 +167,12 @@ def move():
         elif lastMove != "F" and lastMove != "T":
             #Boundary Check, don't go into boundary
             logger.info("turned, no one in front, forward")
-            lastMove = checkBound();
+            lastMove = checkBound()
             if lastMove == "":
                 lastMove = "F"
         else:
-            logger.info("forward, no one in front, forward")
-            lastMove = checkBound();
+            logger.info("forwarded, no one in front, turn")
+            lastMove = checkBound()
             if lastMove == "":
                 lastMove = turns[random.randrange(len(turns))]
     
