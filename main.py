@@ -38,7 +38,6 @@ def move():
     
     #CONST
     FIRERANGE = 3
-
     
     myUrl = data["_links"]["self"]["href"]
     dims = data["arena"]["dims"]
@@ -54,6 +53,54 @@ def move():
 
     print(myUrl, " ", dimsX, " ", dimsY, " ", FIRERANGE)
     print(myX, " ", myY, " ", myDir, " ", myScore)
+
+    if iWasHit:
+        print("I got hit!")
+    else:
+        print("Not hit...")
+    
+    
+    if iWasHit:
+        print("I got hit!")
+    else:
+        print("Not hit...")
+    
+    
+    def isInFront(myUrl,myX,myY,myDir,states):
+        for enemy in states:
+            if enemy != myUrl:
+                print(enemy)
+                enemyState = states[enemy]
+                if myDir == "N":
+                    print("N")
+                    if myX == enemyState["x"]:
+                        if myY > enemyState["y"] >= myY - FIRERANGE:
+                            return enemy
+                elif myDir == "S":
+                    print("S")
+                    if myX == enemyState["x"]:
+                        if myY + FIRERANGE >= enemyState["y"] > myY:
+                            return enemy
+                elif myDir == "E":
+                    print("E")
+                    if myY == enemyState["y"]:
+                        if myX + FIRERANGE >= enemyState["x"] > myX:
+                            return enemy
+                elif myDir == "W":
+                    print("W")
+                    if myY == enemyState["y"]:
+                        if myX > enemyState["x"] >= myX - FIRERANGE:
+                            return enemy
+        return False
+    
+    
+    prefEnemy = isInFront(myUrl,myX,myY,myDir,states)
+    if prefEnemy != False:
+        #THROW
+        print(prefEnemy)
+        return "T"
+    else:
+        print("No")
     
     return moves[random.randrange(len(moves))]
 
