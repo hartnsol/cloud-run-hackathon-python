@@ -138,7 +138,7 @@ def move():
     #     return
 
     if iWasHit:
-        if isInFront(myUrl,myX,myY,myDir,states,1) != "":
+        if isInFront(myUrl,myX,myY,myDir,states,1) == "":
             logger.info("Got hit, move forward")
             lastMove = "F"
         else:
