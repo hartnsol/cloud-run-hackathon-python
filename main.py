@@ -63,25 +63,25 @@ def move():
 
         for enemy in states:
             if enemy != myUrl:
-                logger.info(enemy)
+                #logger.info(enemy)
                 enemyState = states[enemy]
                 if myDir == "N":
-                    logger.info("N")
+                    #logger.info("N")
                     if myX == enemyState["x"]:
                         if myY > enemyState["y"] >= myY - range:
                             return enemy
                 elif myDir == "S":
-                    logger.info("S")
+                    #logger.info("S")
                     if myX == enemyState["x"]:
                         if myY + range >= enemyState["y"] > myY:
                             return enemy
                 elif myDir == "E":
-                    logger.info("E")
+                    #logger.info("E")
                     if myY == enemyState["y"]:
                         if myX + range >= enemyState["x"] > myX:
                             return enemy
                 elif myDir == "W":
-                    logger.info("W")
+                    #logger.info("W")
                     if myY == enemyState["y"]:
                         if myX > enemyState["x"] >= myX - range:
                             return enemy
@@ -137,7 +137,7 @@ def move():
 
     #     return
 
-    if iWasHit:
+    if iWasHit == True:
         if isInFront(myUrl,myX,myY,myDir,states,1) == "":
             logger.info("Got hit, move forward")
             lastMove = "F"
