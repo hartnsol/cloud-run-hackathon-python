@@ -54,13 +54,8 @@ def move():
 
     print(myUrl, " ", dimsX, " ", dimsY, " ", FIRERANGE)
     print(myX, " ", myY, " ", myDir, " ", myScore)
-
-    if iWasHit:
-        print("I got hit!")
-    else:
-        print("Not hit...")
     
-    def isInFront(myUrl,myX,myY,myDir,states):
+    def isInFront(myUrl,myX,myY,myDir,states,range):
         for enemy in states:
             if enemy != myUrl:
                 print(enemy)
@@ -68,35 +63,41 @@ def move():
                 if myDir == "N":
                     print("N")
                     if myX == enemyState["x"]:
-                        if myY > enemyState["y"] >= myY - FIRERANGE:
+                        if myY > enemyState["y"] >= myY - range:
                             return enemy
                 elif myDir == "S":
                     print("S")
                     if myX == enemyState["x"]:
-                        if myY + FIRERANGE >= enemyState["y"] > myY:
+                        if myY + range >= enemyState["y"] > myY:
                             return enemy
                 elif myDir == "E":
                     print("E")
                     if myY == enemyState["y"]:
-                        if myX + FIRERANGE >= enemyState["x"] > myX:
+                        if myX + range >= enemyState["x"] > myX:
                             return enemy
                 elif myDir == "W":
                     print("W")
                     if myY == enemyState["y"]:
-                        if myX > enemyState["x"] >= myX - FIRERANGE:
+                        if myX > enemyState["x"] >= myX - range:
                             return enemy
         return False
-    
-    
-    prefEnemy = isInFront(myUrl,myX,myY,myDir,states)
-    if prefEnemy != False:
-        #THROW
-        print(prefEnemy)
-        lastMove = "T"
-    elif lastMove != "F" & lastMove != "T":
-        lastMove = "F"
+
+    if iWasHit:
+        if isInFront(myUrl,myX,myY,myDir,states,1) != False:
+            lastMove = "F"
+        else:
+            lastMove = turns[random.randrange(len(turns))]
     else:
-        lastMove = turns[random.randrange(len(turns))]
+    
+        prefEnemy = isInFront(myUrl,myX,myY,myDir,states,FIRERANGE)
+        if prefEnemy != False:
+            #THROW
+            print(prefEnemy)
+            lastMove = "T"
+        elif lastMove != "F" & lastMove != "T":
+            lastMove = "F"
+        else:
+            lastMove = turns[random.randrange(len(turns))]
 
     return lastMove
     
