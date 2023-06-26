@@ -115,6 +115,7 @@ def move():
                 thisTurn = "L"
             else:
                 thisTurn = "R"
+        logger.info(thisTurn)
         return thisTurn
 
     # def turnToClosest():
@@ -162,18 +163,20 @@ def move():
         prefEnemy = isInFront(myUrl,myX,myY,myDir,states,FIRERANGE)
         if prefEnemy != "":
             #THROW
-            logger.info("preferred enemy")
             lastMove = "T"
         elif lastMove != "F" and lastMove != "T":
             #Boundary Check, don't go into boundary
+            logger.info("turned, no one in front, forward")
             lastMove = checkBound();
             if lastMove == "":
                 lastMove = "F"
         else:
+            logger.info("forward, no one in front, forward")
             lastMove = checkBound();
             if lastMove == "":
                 lastMove = turns[random.randrange(len(turns))]
-
+    
+    logger.info(lastMove)
     return lastMove
     
     #return turns[random.randrange(len(turns))]
