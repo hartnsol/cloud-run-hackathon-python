@@ -172,10 +172,10 @@ def move():
             if lastMove == "":
                 lastMove = "F"
         else:
-            logger.info("forwarded, no one in front, turn")
-            lastMove = checkBound()
-            if lastMove == "":
-                lastMove = turns[random.randrange(len(turns))]
+            logger.info("forwarded, no one in front, random turn")
+            #lastMove = checkBound()
+            #if lastMove == "":
+            lastMove = turns[random.randrange(len(turns))]
     
     logger.info(lastMove)
     return lastMove
