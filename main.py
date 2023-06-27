@@ -141,7 +141,9 @@ def move():
     if iWasHit == True:
         if isInFront(myUrl,myX,myY,myDir,states,1) == "":
             logger.info("Got hit, move forward")
-            lastMove = "F"
+            lastMove = checkBound()
+            if lastMove == "":
+                lastMove = "F"
         else:
             logger.info("Got hit, but blocked, turn")
             if lastMove != "R" and lastMove != "L":
